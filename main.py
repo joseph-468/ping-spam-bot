@@ -5,6 +5,8 @@ import json
 
 # Setup
 client = commands.Bot(command_prefix=">", help_command=None, intents=Intents.all())
+running = False
+task = None
 try:
     with open("config.json") as file:
         config = json.load(file)
@@ -23,8 +25,13 @@ except FileNotFoundError:
 
 # Ping bot-ping-channels periodically
 async def ping(guild):
+    global task
     while True:
         for channel in guild.channels:
+            if not running:
+                task.cancel()
+                task = None
+                return
             try:
                 if str(channel.type) == "text":
                     if channel.name.startswith("bot-ping-channel"):
@@ -37,13 +44,30 @@ async def ping(guild):
 # Start pinging
 @client.command()
 async def start(ctx):
+    global running
+    global task
     # Check if authorized
     if ctx.author.id not in AUTHORIZED_USERS and AUTHORIZED_USERS:
         print("Unauthorized user attempted to use command")
         await ctx.send("You are not authorized to use this command.")
         return
+    # Check if already running
+    if task:
+        print("Bot is already pinging")
+        await ctx.send("Bot is already pinging.")
+        return
     guild = ctx.message.guild
-    client.loop.create_task(ping(guild))
+    running = True
+    task = client.loop.create_task(ping(guild))
+
+
+@client.command()
+async def stop(ctx):
+    global running
+    if not task:
+        print("No task running")
+        await ctx.send("No task is currently running.")
+    running = False
 
 
 # Create specific number of channels to ping in
