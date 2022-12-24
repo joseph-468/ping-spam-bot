@@ -1,5 +1,6 @@
 # Ping Bot made by joseph468
 
+
 ## How to add the bot
 Follow the "Get Started" section in this video to add the bot to your server: https://youtu.be/hoDLj0IzZMU?t=91\
 If you have any trouble you can contact me @joseph_468#0044 on Discord
