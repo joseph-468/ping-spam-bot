@@ -15,5 +15,5 @@ use >create_channels to create channels
 
 ## Config
 The token variable should be your bot's token \
-The pingRole variable is whichever role you want your bot to ping. leave empty for everyone \
-The authorizedUsers variable is an array with the IDs of everyone who should be able to use either command. leave empty for everyone
+The pingRole variable is whichever role you want your bot to ping. Leave empty for everyone \
+The authorizedUsers variable is an array with the IDs of everyone who should be able to use either command. Leave empty for everyone
